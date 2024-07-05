@@ -1,4 +1,4 @@
-# Ferovinum Technical Assessment
+# Primary Category Selector
 
 ## Introduction
 
