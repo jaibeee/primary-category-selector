@@ -1,0 +1,25 @@
+{
+  "name": "primary-category-selector",
+  "version": "1.0.0",
+  "author": "Jai <jaibeee@gmail.com>",
+  "license": "ISC",
+  "description": "A plugin that allows publishers to designate a primary category for posts or custom post types.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@wordpress/components": "^27.0.0",
+    "@wordpress/data": "^10.2.0",
+    "@wordpress/editor": "^14.2.0",
+    "@wordpress/element": "^6.2.0",
+    "@wordpress/scripts": "^27.0.0"
+  },
+  "dependencies": {
+    "@wordpress/core-data": "^7.2.0",
+    "@wordpress/i18n": "^5.2.0"
+  }
+}
