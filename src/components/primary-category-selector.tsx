@@ -35,7 +35,7 @@ const PrimaryCategorySelector = () => {
   return (
     <SelectControl
       name='primary_category'
-      label="Size"
+      label="Category"
       value={String(primaryCategory)}
       options={options}
       onChange={handleCategoryChange}

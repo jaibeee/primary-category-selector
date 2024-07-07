@@ -16,6 +16,7 @@ class Primary_Category_Selector
 		add_action('add_meta_boxes', array(__CLASS__, 'add_primary_category_meta_box'));
 		add_action('save_post', array(__CLASS__, 'save_primary_category'));
 		add_filter('pre_get_posts', array(__CLASS__, 'modify_query_for_primary_category'));
+		add_shortcode('primary_category_posts', array(__CLASS__, 'primary_category_posts_shortcode'));
 	}
 
 	/**
@@ -93,6 +94,58 @@ class Primary_Category_Selector
 			);
 			$query->set('meta_query', $meta_query);
 		}
+	}
+
+	/**
+	 * Shortcode to list posts by primary category.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return string HTML content to display.
+	 */
+	public static function primary_category_posts_shortcode($atts)
+	{
+		$atts = shortcode_atts([
+			'category' => '',
+			'number' => 5,
+			'post_type' => '',
+		], $atts, 'primary_category_posts');
+
+		$category_id = intval($atts['category']);
+		$number = intval($atts['number']);
+		$post_type = sanitize_text_field($atts['post_type']);
+
+		if (!$category_id) {
+			return '<p>Please specify a valid category ID.</p>';
+		}
+
+		$args = [
+			'meta_key' => '_primary_category',
+			'meta_value' => $category_id,
+			'posts_per_page' => $number,
+		];
+
+		$args['post_type'] = empty($post_type) ? get_post_types(['public' => true]) : $post_type;
+
+		$query = new WP_Query($args);
+		$output = '<ul>';
+
+		if ($query->have_posts()) {
+			while ($query->have_posts()) {
+				$query->the_post();
+				$output .= sprintf(
+					'<li><a href="%1$s">%2$s</a></li>',
+					esc_url(get_permalink()),
+					esc_html(get_the_title())
+				);
+			}
+			wp_reset_postdata();
+		} else {
+			$output .= '<li>No posts found.</li>';
+		}
+
+		$output .= '</ul>';
+
+		return $output;
 	}
 
 	/**
